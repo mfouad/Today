@@ -4,7 +4,9 @@
 // Declare app level module which depends on filters, and services
 var agApp = angular.module('agApp', [
   'ngRoute',
-  'agApp.controllers'
+    'ngResource',
+
+	
 ]);
 
 var Router = function($routeProvider) {
@@ -14,4 +16,3 @@ var Router = function($routeProvider) {
 };
 
 agApp.config(['$routeProvider', Router]);
-
