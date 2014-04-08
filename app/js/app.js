@@ -2,13 +2,9 @@
 
 
 // Declare app level module which depends on filters, and services
-var agApp = angular.module('agApp', [
-  'ngRoute',
-    'ngResource',
+var agApp = angular.module('agApp', ['ngRoute', 'ngResource', 'ngCookies']);
 
-	
-]);
-
+/*
 var Router = function($routeProvider) {
   $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: 'agController'});
   $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'agController'});
@@ -16,3 +12,4 @@ var Router = function($routeProvider) {
 };
 
 agApp.config(['$routeProvider', Router]);
+*/

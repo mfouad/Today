@@ -59,27 +59,28 @@
                     <h1 class="page-header">Dashboard</h1>
 
                     <input type="text" ng-model="apikey" class="form-control" placeholder="API Key.."/>
-                    <br />
-                    <button ng-click="Login()" class="btn btn-primary">Login</button>
+                    <button ng-click='Login()' class="btn btn-primary">Login</button>
 					<br />
-					{{result}}
+					TASKS {{tasks}}
+					<br />
+					KEY {{apikey}}
 
                     <h2 class="sub-header">Section title</h2>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>Task {{tasks.data.length}}</th>
+                                    <th>Assignee</th>
                                     <th>Header</th>
-                                    <th>Header</th>
-                                    <th>Header</th>
+									<th>Header</th>
                                     <th>Header</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody  ng-repeat="task in tasks.data">
                                 <tr>
-                                    <td>1,001</td>
-                                    <td>Lorem</td>
+                                    <td>{{task.name}}</td>
+                                    <td>{{task.assignee}}</td>
                                     <td>ipsum</td>
                                     <td>dolor</td>
                                     <td>sit</td>
@@ -110,9 +111,12 @@
         <script src="lib/angular/angular.js"></script>
         <script src="lib/angular/angular-route.js"></script>
 		<script src="lib/angular/angular-resource.js"></script>
+		<script src="lib/angular/angular-cookies.js"></script>
 		<script src="js/base64.js"></script>
+		<script src="js/asana.js"></script>
 		
         <script src="js/app.js"></script>
+		<script src="js/config.js"></script>
         <script src="js/services.js"></script>
         <script src="js/controllers.js"></script>
         <script src="js/filters.js"></script>

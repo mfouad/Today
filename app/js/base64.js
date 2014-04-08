@@ -6,7 +6,7 @@
 **/
 'use strict';
 
-function Base64()
+function Base64Service()
 {
 
 	var keyStr = 'ABCDEFGHIJKLMNOP' +
