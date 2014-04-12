@@ -64,7 +64,13 @@
 					TASKS {{tasks}}
 					<br />
 					KEY {{apikey}}
+					<br /> 
+					Current Wksps: {{workspace}}
+					Current Project: {{project}}
 
+					<br />
+					<select ng-model="workspace" ng-options="w.id as w.name for w in user.data.workspaces" ng-change="OnWorkspaceChanged()"> </select>
+					<select ng-model="project" ng-options="p.id as p.name for p in projects.data" ng-change="OnProjectChanged()"> </select>
                     <h2 class="sub-header">Section title</h2>
                     <div class="table-responsive">
                         <table class="table table-striped">
@@ -112,8 +118,14 @@
         <script src="lib/angular/angular-route.js"></script>
 		<script src="lib/angular/angular-resource.js"></script>
 		<script src="lib/angular/angular-cookies.js"></script>
+		
+		
 		<script src="js/base64.js"></script>
 		<script src="js/asana.js"></script>
+		
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	   	<script src="js/charts.js"></script>	
+        
 		
         <script src="js/app.js"></script>
 		<script src="js/config.js"></script>
@@ -121,7 +133,8 @@
         <script src="js/controllers.js"></script>
         <script src="js/filters.js"></script>
         <script src="js/directives.js"></script>
-        
+		
+		
 
 <!--
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>

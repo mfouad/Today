@@ -13,11 +13,33 @@ function asanaController($scope, auth_key, asana)
     $scope.Login = function()
     {
     	asana.apikey = $scope.apikey;
-      	$scope.tasks = asana.getMyTasks();
+		asana.login(asana.apikey);
+		this.OnLogin();
+      	//$scope.tasks = asana.getMyTasks();
        
     };
+	
+	$scope.OnLogin = function()
+	{
+		$scope.user = 'Loading..';
+		var result = asana.getMe();
+		$scope.user = result;
+	};
+	
+	$scope.OnWorkspaceChanged = function()
+	{
+		$scope.projects = 'Loading..';
+		var result = asana.getProjects($scope.workspace);
+		$scope.projects = result;	
+	};
+	
+	$scope.OnProjectChanged = function()
+	{
+		$scope.projects = 'Loading..';
+		var result = asana.getProjects($scope.project);
+		$scope.projects = result;	
+	};
 }
-
 
 agApp.controller('asanaController', ['$scope', 'auth_key', 'asana', asanaController]);
 
