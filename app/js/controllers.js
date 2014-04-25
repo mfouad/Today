@@ -3,11 +3,11 @@
 /* Controllers */
 
 
-function asanaController($scope, auth_key, asana)
+function asanaController($scope, config, asana)
 {
 	//$cookies.apikey = auth_key;
 	//$scope.apikey = auth_key;// $cookies.apikey;
-	$scope.apikey = auth_key;
+	$scope.apikey = config.auth_key;
 	
 		
     $scope.Login = function()
@@ -24,10 +24,18 @@ function asanaController($scope, auth_key, asana)
 		$scope.user = 'Loading..';
 		var result = asana.getMe();
 		$scope.user = result;
+		
+		if (config.selected_workspace != null)
+		{
+			$scope.workspace = config.selected_workspace;
+			$scope.OnWorkspaceChanged();
+		}
 	};
 	
 	$scope.OnWorkspaceChanged = function()
 	{
+		config.selected_workspace = $scope.workspace;
+		config.Save();
 		$scope.projects = 'Loading..';
 		var result = asana.getProjects($scope.workspace);
 		$scope.projects = result;	
@@ -37,11 +45,20 @@ function asanaController($scope, auth_key, asana)
 	{
 		$scope.projects = 'Loading..';
 		var result = asana.getProjects($scope.project);
-		$scope.projects = result;	
+		$scope.projects = result;
+		this.ShowStats();
 	};
+	
+	$scope.ShowStats = function()
+	{
+		
+		
+	};
+	
+	$scope.Login();
 }
 
-agApp.controller('asanaController', ['$scope', 'auth_key', 'asana', asanaController]);
+agApp.controller('asanaController', ['$scope', 'config', 'asana', asanaController]);
 
 
 
