@@ -1,2 +1,5 @@
 app/js/config.js
 *.suo
+packages/
+
+api/Auth/Keys.cs
