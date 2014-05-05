@@ -12,6 +12,8 @@ namespace web.Controllers
     {
         ApplicationCredentials AsanaAppCredentials;
         OAuth2SessionStateManager oauth2StateManager;
+
+        string AppUrl = "~/app/index.html";
         
         public AsanaController()
         {
@@ -46,7 +48,7 @@ namespace web.Controllers
             response.Wait();
             Session["asanaaccesstoken"] = response.Result.AccessToken;
             Session["asanaexpire"] = response.Result.Expires;
-            return View("Login");
+            return Redirect(AppUrl);
         }
 	}
 }
