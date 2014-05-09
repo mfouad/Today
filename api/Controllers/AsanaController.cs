@@ -12,9 +12,12 @@ namespace web.Controllers
     {
         ApplicationCredentials AsanaAppCredentials;
         OAuth2SessionStateManager oauth2StateManager;
-
-        string AppUrl = "http://localhost:8080/app/app.html";
-        
+#if DEBUG
+        const string AppUrl = "http://localhost:8080/app/app.html";
+#else
+        const string AppUrl = "http://agility.azurewebsites.net/app/app.html";
+#endif
+   
         public AsanaController()
         {
             SetKeys();
@@ -50,8 +53,11 @@ namespace web.Controllers
             Session["asanaexpire"] = response.Result.Expires;
             this.ControllerContext.HttpContext.Response.Cookies.Add(new HttpCookie("asana_token", response.Result.AccessToken));
             this.ControllerContext.HttpContext.Response.Cookies.Add(new HttpCookie("asana_expire", response.Result.Expires.ToString()));
+
             return Redirect(AppUrl);
         }
+
+
 	}
 }
 
