@@ -4,11 +4,21 @@
 function AsanaService(Base64, $http, $resource)
 {
 	var asana = {};
-	asana.login = function(apikey)
+	
+	// Login using a static API key - dangerous
+	asana.LoginBasic = function(apikey)
 	{
 		// modify the Authorization header to send the username & password
 		$http.defaults.headers.common.Authorization = 'Basic ' + 
 			Base64.encode(apikey + ":");
+
+	};
+	
+	// Login using a dynamic API access token provided via OAuth
+	asana.LoginOAuth = function(apikey)
+	{
+		// modify the Authorization header to send the username & password
+		$http.defaults.headers.common.Authorization = 'Bearer ' +	apikey;
 
 	};
 

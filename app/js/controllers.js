@@ -13,7 +13,7 @@ function asanaController($scope, config, asana)
     $scope.Login = function()
     {
     	asana.apikey = $scope.apikey;
-		asana.login(asana.apikey);
+		asana.LoginOAuth(asana.apikey);
 		this.OnLogin();
       	//$scope.tasks = asana.getMyTasks();
        

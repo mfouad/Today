@@ -58,17 +58,6 @@
                 <div ng-controller="asanaController" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                     <h1 class="page-header">Dashboard</h1>
 
-                    <input type="text" ng-model="apikey" class="form-control" placeholder="API Key.."/>
-                    <button ng-click='Login()' class="btn btn-primary">Login</button>
-					<br />
-					TASKS {{tasks}}
-					<br />
-					KEY {{apikey}}
-					<br /> 
-					Current Wksps: {{workspace}}
-					Current Project: {{project}}
-
-					<br />
 					<select ng-model="workspace" ng-options="w.id as w.name for w in user.data.workspaces" ng-change="OnWorkspaceChanged()"> </select>
 					<select ng-model="project" ng-options="p.id as p.name for p in projects.data" ng-change="OnProjectChanged()"> </select>
 					
