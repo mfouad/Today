@@ -1,4 +1,4 @@
 agility
 =======
 
-Comprehensive Reports for your team activity
+Insights for projects and teams
