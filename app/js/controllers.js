@@ -32,8 +32,9 @@ function asanaController($scope, config, asana)
 		}
 	};
 	
-	$scope.OnWorkspaceChanged = function()
+	$scope.OnWorkspaceChanged = function(id)
 	{
+		$scope.workspace = id;
 		config.selected_workspace = $scope.workspace;
 		config.Save();
 		$scope.projects = 'Loading..';
@@ -41,11 +42,12 @@ function asanaController($scope, config, asana)
 		$scope.projects = result;	
 	};
 	
-	$scope.OnProjectChanged = function()
+	$scope.OnProjectChanged = function(id)
 	{
-		$scope.projects = 'Loading..';
-		var result = asana.getProjects($scope.project);
-		$scope.projects = result;
+		$scope.project = id;
+		var result = asana.getTasks($scope.project);
+		$scope.tasks = result;
+		console.info($scope.tasks);
 		this.ShowStats();
 	};
 	

@@ -46,6 +46,14 @@ function AsanaService(Base64, $http, $resource)
 		var res = $resource('https://app.asana.com/api/1.0/workspaces/:wid/projects');
 		return res.get({wid:workspace_id});
 	};
+	
+	asana.getTasks = function(project_id)
+	{
+		var res = $resource('https://app.asana.com/api/1.0/projects/:pid/tasks');
+		return res.get({pid:project_id});
+	};
+	
+	
 
 	return asana;
 	
