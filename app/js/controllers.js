@@ -47,7 +47,7 @@ function asanaController($scope, config, asana)
 		$scope.project = id;
 		var result = asana.getTasks($scope.project);
 		$scope.tasks = result;
-		console.info($scope.tasks);
+
 		this.ShowStats();
 	};
 	
