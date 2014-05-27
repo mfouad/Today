@@ -6,7 +6,7 @@
 
 agApp.service('Base64', Base64Service);
 
-agApp.factory('asana', ['Base64', '$http', '$resource', AsanaService]);
+agApp.factory('asana', ['Base64', '$http', '$resource', '$q', AsanaService]);
 
 agApp.factory('config', ['$cookies', ConfigService]);
 

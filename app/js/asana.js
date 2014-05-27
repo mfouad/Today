@@ -1,43 +1,33 @@
 'use strict';
 
 
-function AsanaService(Base64, $http, $resource)
+function AsanaService(Base64, $http, $resource, $q)
 {
 	var asana = {};
-	
-    // A success function for the resource promise
-    asana.SetProjects = function(val, responseHeaders)
-    {
-        asana.Projects = val.data;
-    };
-    
-    asana.SetTasks = function(val, responseHeaders)
-    {
-        asana.Tasks = val.data;
-        var promises = asana.Tasks.map(asana.LoadTask);
-        return $q.all(promises);
-    };
-    
-    asana.SetTaskDetails = function(val, responseHeaders)
-    {
-        console.log(val.data);
-    };
-    
-    asana.LoadTask = function(task)
-    {
-        var res = $resource('https://app.asana.com/api/1.0/tasks/:tid');
-		return res.get({tid:task.id}, asana.SetTaskDetails, asana.OnError);
-    }   
 
-    asana.SetWorkspaces = function(val, responseHeaders)
+    asana.Projects = [];
+    asana.TasksSummary = [];
+    asana.Tasks = [];
+    
+    asana.AddProjects = function(val)
     {
-        asana.Workspaces = val.data;
+        asana.Projects = asana.Projects.concat(val.data);
     };
     
+    asana.AddTasks = function(val)
+    {
+        asana.TasksSummary = asana.TasksSummary.concat(val.data);
+    };
+    
+    asana.AddTaskDetail = function(val)
+    {
+        asana.Tasks.push(val.data);
+    };
     
     // an error handler for resource promise failure 
     asana.OnError = function(httpResponse)
     {
+        console.error(httpResponse.data.errors[0]);
     };
     
 	// Login using a static API key - dangerous
@@ -57,37 +47,63 @@ function AsanaService(Base64, $http, $resource)
 
 	};
 
-	asana.getMyTasks = function ()
+
+    asana.getCurrentUser = function()
+	{
+		 var res = $resource('https://app.asana.com/api/1.0/users/me');
+		return res.get();
+	};
+
+    asana.getMyTasks = function ()
 	{
 
 		var res = $resource('https://app.asana.com/api/1.0/tasks?workspace=10639840794081&assignee=me');
 		return res.get();	
 	};
 
-	asana.getMe = function()
-	{
-		 var res = $resource('https://app.asana.com/api/1.0/users/me');
-		return res.get();
-	};
 
-	asana.getWorkspaces = function()
-	{
-		var res = $resource('https://app.asana.com/api/1.0/tasks?workspace=10639840794081&assignee=me');
-		return res.get({}, asana.SetWorkspaces, asana.OnError);	
-	};
-
-	asana.getProjects = function(workspace_id)
+    
+	asana.getProjects = function(workspace)
 	{
 		var res = $resource('https://app.asana.com/api/1.0/workspaces/:wid/projects');
-		return res.get({wid:workspace_id}, asana.SetProjects, asana.OnError);
+		return res.get({wid:workspace}).$promise.then(asana.AddProjects, asana.OnError);
 	};
+    
+    asana.getTaskDetails = function(task)
+    {
+        console.log('loading task ' + task.id + ' - name:' + task.name);
+        var res = $resource('https://app.asana.com/api/1.0/tasks/:tid');
+        res.get({tid:task.id}).$promise.then(asana.AddTaskDetail, asana.OnError);
+    };
 	
-	asana.getTasks = function(project_id)
+	asana.getProjectTasks = function(project)
 	{
 		var res = $resource('https://app.asana.com/api/1.0/projects/:pid/tasks');
-		var tasksPromise = res.get({pid:project_id}, asana.SetTasks, asana.OnError);
-        //var tasksDetailsPromise = 
+		return res.get({pid:project.id}).$promise.then(asana.AddTasks, asana.OnError);
 	};
+    
+    asana.ForEachTask = function()
+    {
+        console.log(asana.TasksSummary);
+        var promises = asana.TasksSummary.map(asana.getTaskDetails);
+        return $q.all(promises);
+
+    };
+    
+    asana.ForEachProject = function()
+    {
+        console.log(asana.Projects);
+        var promises = asana.Projects.map(asana.getProjectTasks);
+        return $q.all(promises);
+    };
+    
+    asana.Load = function(workspace)
+    {
+        asana.getProjects(workspace)
+            .then(asana.ForEachProject)
+            .then(asana.ForEachTask)
+    };
+
 	
 	return asana;
 	

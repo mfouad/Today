@@ -2,7 +2,7 @@
 
 
 // Declare app level module which depends on filters, and services
-var agApp = angular.module('agApp', ['ngRoute', 'ngResource', 'ngCookies']);
+var agApp = angular.module('agApp', ['ngRoute', 'ngResource', 'ngCookies', 'ng']);
 
 /*
 var Router = function($routeProvider) {

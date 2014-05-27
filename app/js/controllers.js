@@ -38,10 +38,10 @@ function asanaController($scope, config, asana)
 		config.selected_workspace = $scope.workspace;
 		config.Save();
 		$scope.projects = 'Loading..';
-		var result = asana.getProjects($scope.workspace);
+		var result = asana.Load($scope.workspace);
 		$scope.projects = result;	
 	};
-	
+	/*
 	$scope.OnProjectChanged = function(id)
 	{
 		$scope.project = id;
@@ -50,7 +50,7 @@ function asanaController($scope, config, asana)
 
 		this.ShowStats();
 	};
-	
+	*/
 	$scope.ShowStats = function()
 	{
 		
