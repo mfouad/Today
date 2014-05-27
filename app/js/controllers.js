@@ -14,13 +14,14 @@ function agLoaderCtrl($scope, config, asana, $interval)
 
 		var result = asana.Load();
 		
-        //$scope.timer =  $interval($scope.OnTick, 600);
-        result.then($scope.OnLoadingComplete);
+        $scope.timer =  $interval($scope.OnTick, 3000);
+        //result.then($scope.OnLoadingComplete);
 
     };
     
     $scope.OnTick = function()
     {
+		asana.More();
         $scope.progress = asana.GetProgress();
         $scope.now = asana.nProcessedTasks;
         $scope.max = asana.nTasksCount;

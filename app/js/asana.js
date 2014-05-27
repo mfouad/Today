@@ -5,8 +5,8 @@ function AsanaService(Base64, $http, $resource, $q)
 {
 	var asana = {};
 
-    asana.Projects = [];
-    asana.TasksSummary = [];
+    asana.PendingProjects = [];
+    asana.PendingTasks = [];
     asana.Tasks = [];
     asana.Workspaces = [];
     asana.CurrentUser = {};
@@ -21,18 +21,20 @@ function AsanaService(Base64, $http, $resource, $q)
     
     asana.AddProjects = function(val)
     {
-        asana.Projects = asana.Projects.concat(val.data);
+        asana.PendingProjects = asana.PendingProjects.concat(val.data);
     };
     
     asana.AddTasks = function(val)
     {
-        asana.TasksSummary = asana.TasksSummary.concat(val.data);
-        asana.nProcessedTasks++;
+		asana.PendingTasks = asana.PendingTasks.concat(val.data);
+		asana.nTasksCount = asana.PendingTasks.length;
+        
     };
     
     asana.AddTaskDetail = function(val)
     {
         asana.Tasks.push(val.data);
+		asana.nProcessedTasks++;
     };
     
     // an error handler for resource promise failure 
@@ -62,7 +64,7 @@ function AsanaService(Base64, $http, $resource, $q)
     asana.getCurrentUser = function()
 	{
         var res = $resource('https://app.asana.com/api/1.0/users/me');
-		return res.get().$promise.then(asana.SetCurrentUser, asana.OnError);;
+		return res.get().$promise.then(asana.SetCurrentUser, asana.OnError);
 	};
 
     asana.getMyTasks = function ()
@@ -76,6 +78,7 @@ function AsanaService(Base64, $http, $resource, $q)
     
 	asana.getProjects = function(workspace)
 	{
+		
 		var res = $resource('https://app.asana.com/api/1.0/workspaces/:wid/projects');
 		return res.get({wid:workspace.id}).$promise.then(asana.AddProjects, asana.OnError);
 	};
@@ -93,42 +96,60 @@ function AsanaService(Base64, $http, $resource, $q)
 		return res.get({pid:project.id}).$promise.then(asana.AddTasks, asana.OnError);
 	};
     
-    asana.ForEachTask = function()
+	
+    asana.LoadSomeTasks = function()
     {
-        if (asana.TasksSummary.length > 0)
-            asana.nTasksCount = asana.TasksSummary.length;
-        
         //console.log(asana.TasksSummary);
-        var promises = asana.TasksSummary.map(asana.getTaskDetails);
+		var limit = Math.min(10, asana.PendingTasks.length);
+		var promises = asana.PendingTasks.splice(0,limit).map(asana.getTaskDetails);
         return $q.all(promises);
 
     };
     
-    asana.ForEachProject = function()
+    asana.LoadSomeProjects = function()
     {
         //console.log(asana.Projects);
-        var promises = asana.Projects.map(asana.getProjectTasks);
+		var limit = Math.min(10, asana.PendingProjects.length);
+		var promises = asana.PendingProjects.splice(0,limit).map(asana.getProjectTasks);
         return $q.all(promises);
     };
     
-    asana.ForEachWorkspace = function()
+    asana.LoadWorkspaces = function()
     {
         //console.log(asana.Workspaces);
         var promises = asana.Workspaces.map(asana.getProjects);
         return $q.all(promises);
     };
+	
+	asana.IsLoaded = function(obj)
+	{
+		return (obj.isLoaded == true);	
+	};
+	
+	asana.PrepareObjects = function(arr)
+	{
+		function ClearLoaded(item) { item.isLoaded = false; }
+		arr.forEach(ClearLoaded);	
+		return arr;
+	};
     
-    asana.Load = function(workspace)
+    asana.Load = function()
     {
         return asana.getCurrentUser()
-            .then(asana.ForEachWorkspace)
-            .then(asana.ForEachProject)
-            .then(asana.ForEachTask)
+		.then(asana.LoadWorkspaces);
+//		.then(asana.ForEachProject)
+//		.then(asana.ForEachTask)	
     };
+	
+	asana.More = function()
+	{
+		asana.LoadSomeProjects();
+		asana.LoadSomeTasks();
+	};
 
     asana.GetProgress = function()
     {
-        return asana.nProcessedTasks * 100 / asana.nTasksCount;
+		return asana.nProcessedTasks * 100 / (asana.nTasksCount+ asana.nProcessedTasks);
     };
 	
 	return asana;
