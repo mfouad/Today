@@ -8,6 +8,16 @@ function AsanaService(Base64, $http, $resource, $q)
     asana.Projects = [];
     asana.TasksSummary = [];
     asana.Tasks = [];
+    asana.Workspaces = [];
+    asana.CurrentUser = {};
+    asana.nTasksCount = 100;
+    asana.nProcessedTasks = 0;
+    
+    asana.SetCurrentUser = function(val)
+    {
+        asana.CurrentUser = val.data;
+        asana.Workspaces = val.data.workspaces;
+    };
     
     asana.AddProjects = function(val)
     {
@@ -17,6 +27,7 @@ function AsanaService(Base64, $http, $resource, $q)
     asana.AddTasks = function(val)
     {
         asana.TasksSummary = asana.TasksSummary.concat(val.data);
+        asana.nProcessedTasks++;
     };
     
     asana.AddTaskDetail = function(val)
@@ -50,8 +61,8 @@ function AsanaService(Base64, $http, $resource, $q)
 
     asana.getCurrentUser = function()
 	{
-		 var res = $resource('https://app.asana.com/api/1.0/users/me');
-		return res.get();
+        var res = $resource('https://app.asana.com/api/1.0/users/me');
+		return res.get().$promise.then(asana.SetCurrentUser, asana.OnError);;
 	};
 
     asana.getMyTasks = function ()
@@ -66,7 +77,7 @@ function AsanaService(Base64, $http, $resource, $q)
 	asana.getProjects = function(workspace)
 	{
 		var res = $resource('https://app.asana.com/api/1.0/workspaces/:wid/projects');
-		return res.get({wid:workspace}).$promise.then(asana.AddProjects, asana.OnError);
+		return res.get({wid:workspace.id}).$promise.then(asana.AddProjects, asana.OnError);
 	};
     
     asana.getTaskDetails = function(task)
@@ -84,7 +95,10 @@ function AsanaService(Base64, $http, $resource, $q)
     
     asana.ForEachTask = function()
     {
-        console.log(asana.TasksSummary);
+        if (asana.TasksSummary.length > 0)
+            asana.nTasksCount = asana.TasksSummary.length;
+        
+        //console.log(asana.TasksSummary);
         var promises = asana.TasksSummary.map(asana.getTaskDetails);
         return $q.all(promises);
 
@@ -92,18 +106,30 @@ function AsanaService(Base64, $http, $resource, $q)
     
     asana.ForEachProject = function()
     {
-        console.log(asana.Projects);
+        //console.log(asana.Projects);
         var promises = asana.Projects.map(asana.getProjectTasks);
+        return $q.all(promises);
+    };
+    
+    asana.ForEachWorkspace = function()
+    {
+        //console.log(asana.Workspaces);
+        var promises = asana.Workspaces.map(asana.getProjects);
         return $q.all(promises);
     };
     
     asana.Load = function(workspace)
     {
-        asana.getProjects(workspace)
+        return asana.getCurrentUser()
+            .then(asana.ForEachWorkspace)
             .then(asana.ForEachProject)
             .then(asana.ForEachTask)
     };
 
+    asana.GetProgress = function()
+    {
+        return asana.nProcessedTasks * 100 / asana.nTasksCount;
+    };
 	
 	return asana;
 	

@@ -2,11 +2,8 @@
 
 /* Controllers */
 
-
-function asanaController($scope, config, asana)
+function agLoaderCtrl($scope, config, asana, $interval)
 {
-	//$cookies.apikey = auth_key;
-	//$scope.apikey = auth_key;// $cookies.apikey;
 	$scope.apikey = config.auth_key;
 	
 		
@@ -14,24 +11,37 @@ function asanaController($scope, config, asana)
     {
     	asana.apikey = $scope.apikey;
 		asana.LoginOAuth(asana.apikey);
-		this.OnLogin();
-      	//$scope.tasks = asana.getMyTasks();
-       
+
+		var result = asana.Load();
+		
+        //$scope.timer =  $interval($scope.OnTick, 600);
+        result.then($scope.OnLoadingComplete);
+
+    };
+    
+    $scope.OnTick = function()
+    {
+        $scope.progress = asana.GetProgress();
+        $scope.now = asana.nProcessedTasks;
+        $scope.max = asana.nTasksCount;
+    };
+    
+    $scope.OnLoadingComplete = function()
+    {
+        $interval.cancel($scope.timer);
     };
 	
-	$scope.OnLogin = function()
-	{
-		$scope.user = 'Loading..';
-		var result = asana.getMe();
-		$scope.user = result;
-		
-		if (config.selected_workspace != null)
-		{
-			$scope.workspace = config.selected_workspace;
-			$scope.OnWorkspaceChanged();
-		}
-	};
-	
+    $scope.Login();
+
+}
+
+
+
+
+
+
+function asanaController($scope, config, asana)
+{
 	$scope.OnWorkspaceChanged = function(id)
 	{
 		$scope.workspace = id;
@@ -57,11 +67,10 @@ function asanaController($scope, config, asana)
 		
 	};
 	
-	$scope.Login();
 }
 
 agApp.controller('asanaController', ['$scope', 'config', 'asana', asanaController]);
-
+agApp.controller('agLoaderCtrl', ['$scope', 'config', 'asana', '$interval', agLoaderCtrl]);
 
 
 
