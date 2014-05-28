@@ -14,7 +14,7 @@ function agLoaderCtrl($scope, config, asana, $interval)
 
 		var result = asana.Load();
 		
-        $scope.timer =  $interval($scope.OnTick, 3000);
+        $scope.timer =  $interval($scope.OnTick, 10000);
         //result.then($scope.OnLoadingComplete);
 
     };

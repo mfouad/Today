@@ -10,6 +10,7 @@ function AsanaService(Base64, $http, $resource, $q)
     asana.Tasks = [];
     asana.Workspaces = [];
     asana.CurrentUser = {};
+	asana.TodayTasks = [];
     asana.nTasksCount = 100;
     asana.nProcessedTasks = 0;
     
@@ -19,6 +20,11 @@ function AsanaService(Base64, $http, $resource, $q)
         asana.Workspaces = val.data.workspaces;
     };
     
+	asana.AddTodayTasks = function(val)
+	{
+		asana.TodayTasks = asana.TodayTasks.concat(val.data);
+	};
+	
     asana.AddProjects = function(val)
     {
         asana.PendingProjects = asana.PendingProjects.concat(val.data);
@@ -67,13 +73,12 @@ function AsanaService(Base64, $http, $resource, $q)
 		return res.get().$promise.then(asana.SetCurrentUser, asana.OnError);
 	};
 
-    asana.getMyTasks = function ()
+
+	asana.getMyTasks = function(workspace)
 	{
-
-		var res = $resource('https://app.asana.com/api/1.0/tasks?workspace=10639840794081&assignee=me');
-		return res.get();	
+		var res = $resource('https://app.asana.com/api/1.0/tasks?assignee=me&workspace=:wid&opt_fields=assignee_status,name');
+		return res.get({wid:workspace.id}).$promise.then(asana.AddTodayTasks, asana.OnError);
 	};
-
 
     
 	asana.getProjects = function(workspace)
@@ -85,7 +90,7 @@ function AsanaService(Base64, $http, $resource, $q)
     
     asana.getTaskDetails = function(task)
     {
-        console.log('loading task ' + task.id + ' - name:' + task.name);
+        //console.log('loading task ' + task.id + ' - name:' + task.name);
         var res = $resource('https://app.asana.com/api/1.0/tasks/:tid');
         res.get({tid:task.id}).$promise.then(asana.AddTaskDetail, asana.OnError);
     };
@@ -96,6 +101,7 @@ function AsanaService(Base64, $http, $resource, $q)
 		return res.get({pid:project.id}).$promise.then(asana.AddTasks, asana.OnError);
 	};
     
+
 	
     asana.LoadSomeTasks = function()
     {
@@ -118,6 +124,7 @@ function AsanaService(Base64, $http, $resource, $q)
     {
         //console.log(asana.Workspaces);
         var promises = asana.Workspaces.map(asana.getProjects);
+		asana.Workspaces.map(asana.getMyTasks);
         return $q.all(promises);
     };
 	
