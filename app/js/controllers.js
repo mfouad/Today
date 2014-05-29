@@ -2,7 +2,10 @@
 
 /* Controllers */
 
-function agLoaderCtrl($scope, config, asana, $interval)
+
+// Loads the initial app 
+// Logs in to asana - and load the bare minimum tasks required for initial loading.
+function agLoader($scope, config, asana, $location)
 {
 	$scope.apikey = config.auth_key;
 	
@@ -12,36 +15,45 @@ function agLoaderCtrl($scope, config, asana, $interval)
     	asana.apikey = $scope.apikey;
 		asana.LoginOAuth(asana.apikey);
 
-		var result = asana.Load();
-		
-        $scope.timer =  $interval($scope.OnTick, 10000);
-        //result.then($scope.OnLoadingComplete);
-
-    };
-    
-    $scope.OnTick = function()
-    {
-		asana.More();
-        $scope.progress = asana.GetProgress();
-        $scope.now = asana.nProcessedTasks;
-        $scope.max = asana.nTasksCount;
+		asana.Load().then($scope.OnLoadingComplete);
     };
     
     $scope.OnLoadingComplete = function()
     {
-        $interval.cancel($scope.timer);
-    };
+        $location.path('overview');
+    };	
 	
-    $scope.Login();
-
+	$scope.Login();
 }
 
+// Backgrown worker for the app 
+// currently it is only responsible for downloading Tasks from asana gradually during to the API rate-limiting
+function agDownloader($scope, config, asana, $interval)
+{
+	$scope.DownloadAllTasks = function()
+	{
+		$scope.timer =  $interval($scope.OnTick, 10000);
+	};
+
+	$scope.OnTick = function()
+	{
+		asana.More();
+		$scope.progress = asana.GetProgress();
+		$scope.now = asana.nProcessedTasks;
+		$scope.max = asana.nTasksCount;
+	};
+
+	$scope.OnDownloadComplete = function()
+	{
+		$interval.cancel($scope.timer);
+	};
+
+	$scope.DownloadAllTasks();
+};
 
 
 
-
-
-function asanaController($scope, config, asana)
+function agOverview($scope, config, asana)
 {
 	$scope.OnWorkspaceChanged = function(id)
 	{
@@ -70,8 +82,9 @@ function asanaController($scope, config, asana)
 	
 }
 
-agApp.controller('asanaController', ['$scope', 'config', 'asana', asanaController]);
-agApp.controller('agLoaderCtrl', ['$scope', 'config', 'asana', '$interval', agLoaderCtrl]);
+agApp.controller('agOverview', ['$scope', 'config', 'asana', agOverview]);
+agApp.controller('agLoader', ['$scope', 'config', 'asana', '$location', agLoader]);
+agApp.controller('agDownloader', ['$scope', 'config', 'asana', '$interval', agDownloader]);
 
 
 
