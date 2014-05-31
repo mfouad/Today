@@ -48,7 +48,7 @@ function agDownloader($scope, config, asana, $interval)
 		$interval.cancel($scope.timer);
 	};
 
-	$scope.DownloadAllTasks();
+	//$scope.DownloadAllTasks();
 };
 
 

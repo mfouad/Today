@@ -124,7 +124,7 @@ function AsanaService(Base64, $http, $resource, $q)
     {
         //console.log(asana.Workspaces);
         var promises = asana.Workspaces.map(asana.getProjects);
-		asana.Workspaces.map(asana.getMyTasks);
+		promises.push(asana.Workspaces.map(asana.getMyTasks));
         return $q.all(promises);
     };
 	
