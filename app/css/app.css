@@ -7,6 +7,10 @@ body {
   padding-top: 50px;
 }
 
+.progress-bar
+{
+	
+}
 
 /*
  * Global add-ons
@@ -110,4 +114,25 @@ body {
 
 .title {
     margin: 30px;
+}
+.progress-bar {
+	text-decoration-color: black;
+}
+
+.progress-text {
+	min-width: 20%;
+}
+
+/* FontIcons Icons */
+
+.fa-2 {
+	font-size: 3em
+}
+
+.fa-3 {
+	font-size: 4em
+}
+
+.fa-4 {
+	font-size: 16em
 }

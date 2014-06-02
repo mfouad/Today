@@ -23,6 +23,8 @@ function agLoader($scope, config, asana, $location)
         $location.path('overview');
     };	
 	
+
+	
 	$scope.Login();
 }
 
@@ -74,11 +76,11 @@ function agOverview($scope, config, asana)
 		this.ShowStats();
 	};
 	*/
-	$scope.ShowStats = function()
-	{
-		
-		
-	};
+
+
+	
+	console.log("tasks = ", asana.Tasks);
+	$scope.projects = asana.Projects;
 	
 }
 

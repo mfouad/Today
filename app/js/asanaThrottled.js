@@ -4,6 +4,8 @@
 function AsanaService(Base64, $http, $resource, $q, $localStorage) {
 	var asana = {};
 
+	asana.PendingProjects = [];
+	asana.PendingTasks = [];
 	asana.Projects = [];
 	asana.Tasks = [];
 	asana.Workspaces = [];
@@ -23,12 +25,25 @@ function AsanaService(Base64, $http, $resource, $q, $localStorage) {
 
 	asana.AddProjects = function (val) {
 		asana.Projects = asana.Projects.concat(val.data);
+		asana.PendingProjects = asana.PendingProjects.concat(val.data);
+		console.log('projects = ', asana.Projects);
 	};
 
 	asana.AddTasks = function (val) {
+		asana.PendingTasks = asana.PendingTasks.concat(val.data);
+		asana.nTasksCount = asana.PendingTasks.length;
+
+	};
+
+	asana.AddTasksDetails = function (val) {
 		asana.Tasks = asana.Tasks.concat(val.data);
 		asana.nTasksCount = asana.Tasks.length;
 
+	};
+
+	asana.AddTaskDetail = function (val) {
+		asana.Tasks.push(val.data);
+		asana.nProcessedTasks++;
 	};
 
 	// an error handler for resource promise failure 
@@ -74,21 +89,51 @@ function AsanaService(Base64, $http, $resource, $q, $localStorage) {
 		}).$promise.then(asana.AddProjects, asana.OnError);
 	};
 
-	// Loads all tasks with extra details than the API usually provides. this is to spare us from dealing with rate-limiting
-	// this way we can load all the tasks with only a couple of requests
+	asana.getTaskDetails = function (task) {
+		//console.log('loading task ' + task.id + ' - name:' + task.name);
+		var res = $resource('https://app.asana.com/api/1.0/tasks/:tid');
+		res.get({
+			tid: task.id
+		}).$promise.then(asana.AddTaskDetail, asana.OnError);
+	};
+
 	asana.getProjectTasksGreedy = function (project) {
 		var res = $resource('https://app.asana.com/api/1.0/projects/:pid/tasks?opt_fields=assignee_status,name,created_at,modified_at,assignee,completed,completed_at,due_on,workspace,projects,followers,followers.name,projects.name,workspace.name,assignee.name');
+		return res.get({
+			pid: project.id
+		}).$promise.then(asana.AddTasksDetails, asana.OnError);
+	};
+
+	asana.LoadProjectsGreedy = function () {
+		//console.log(asana.Projects);
+		var promises = asana.PendingProjects.map(asana.getProjectTasksGreedy);
+		return $q.all(promises);
+	};
+
+	asana.getProjectTasks = function (project) {
+		var res = $resource('https://app.asana.com/api/1.0/projects/:pid/tasks');
 		return res.get({
 			pid: project.id
 		}).$promise.then(asana.AddTasks, asana.OnError);
 	};
 
-	asana.LoadProjectsGreedy = function () {
-		console.log(asana.Projects);
-		var promises = asana.PendingProjects.map(asana.getProjectTasksGreedy);
+
+
+	asana.LoadSomeTasks = function () {
+		//console.log(asana.TasksSummary);
+		var limit = Math.min(10, asana.PendingTasks.length);
+		var promises = asana.PendingTasks.splice(0, limit).map(asana.getTaskDetails);
 		return $q.all(promises);
+
 	};
 
+	asana.LoadSomeProjects = function () {
+		//console.log(asana.Projects);
+		var limit = Math.min(10, asana.PendingProjects.length);
+		var projects = asana.PendingProjects.splice(0, limit);
+		var promises = projects.map(asana.getProjectTasks);
+		return $q.all(promises);
+	};
 
 	asana.LoadWorkspaces = function () {
 		console.log(asana.Workspaces);
@@ -103,12 +148,22 @@ function AsanaService(Base64, $http, $resource, $q, $localStorage) {
 			var deferred = $q.defer();
 			deferred.resolve('');
 			return deferred.promise;
-		} else {
-			return asana.getCurrentUser()
-				.then(asana.LoadWorkspaces)
-				.then(asana.LoadProjectsGreedy)
-				.then(asana.Save);
 		}
+		else {
+			return asana.getCurrentUser()
+			.then(asana.LoadWorkspaces)
+			.then(asana.LoadProjectsGreedy)
+			.then(asana.Save);
+		}
+	};
+
+	asana.More = function () {
+		asana.LoadSomeProjects();
+		asana.LoadSomeTasks();
+	};
+
+	asana.GetProgress = function () {
+		return asana.nProcessedTasks * 100 / (asana.nTasksCount + asana.nProcessedTasks);
 	};
 
 	asana.Save = function () {
@@ -119,7 +174,7 @@ function AsanaService(Base64, $http, $resource, $q, $localStorage) {
 	asana.IsStored = function () {
 
 		console.log("storage= ", $localStorage.Projects);
-		if ($localStorage.Projects == null || $localStorage.Tasks == null)
+		if ($localStorage.Projects == null ||  $localStorage.Tasks == null)
 			return false;
 
 		asana.Projects = $localStorage.Projects;
