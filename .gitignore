@@ -2,5 +2,5 @@ app/js/config.js
 *.suo
 packages/
 bower_components/
-
+*.log
 api/Auth/Keys.cs

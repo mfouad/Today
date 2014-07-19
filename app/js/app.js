@@ -12,3 +12,12 @@ var Router = function($routeProvider) {
 };
 
 agApp.config(['$routeProvider', Router]);
+
+
+agApp.controller('agOverview', ['$scope', 'config', 'asana', agOverview]);
+agApp.controller('agLoader', ['$scope', 'config', 'asana', '$location', agLoader]);
+agApp.controller('agDownloader', ['$scope', 'config', 'asana', '$interval', agDownloader]);
+
+agApp.service('Base64', Base64Service);
+agApp.factory('asana', ['Base64', '$http', '$resource', '$q', '$localStorage', AsanaService]);
+agApp.factory('config', ['$cookies', ConfigService]);

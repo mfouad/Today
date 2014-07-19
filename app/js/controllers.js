@@ -84,9 +84,4 @@ function agOverview($scope, config, asana)
 	
 }
 
-agApp.controller('agOverview', ['$scope', 'config', 'asana', agOverview]);
-agApp.controller('agLoader', ['$scope', 'config', 'asana', '$location', agLoader]);
-agApp.controller('agDownloader', ['$scope', 'config', 'asana', '$interval', agDownloader]);
-
-
 
