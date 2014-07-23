@@ -2,14 +2,14 @@
 // Declare app level module which depends on filters, and services
 var calApp = angular.module('calApp', ['ngRoute', 'ngResource', 'ngCookies', 'ng', 'ngStorage']);
 
-
+/*
 var Router = function($routeProvider) {
-  $routeProvider.when('/cal', {templateUrl: 'partials/cal.html'});
+  $routeProvider.when('/cal', {templateUrl: 'partials/calendar.html'});
   $routeProvider.otherwise({redirectTo: '/cal'});
 };
 
 calApp.config(['$routeProvider', Router]);
-
+*/
 calApp.controller('agLoader', ['$scope', 'config', 'asana', '$location', agLoader]);
 calApp.controller('agDownloader', ['$scope', 'config', 'asana', '$interval', agDownloader]);
 
