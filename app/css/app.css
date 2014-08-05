@@ -4,7 +4,6 @@
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-  padding-top: 50px;
 }
 
 .progress-bar
@@ -21,6 +20,11 @@ body {
   border-bottom: 1px solid #eee;
 }
 
+
+.header {
+    margin-top:10px;
+    margin-bottom: 30px;
+}
 
 /*
  * Sidebar

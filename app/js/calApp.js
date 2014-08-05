@@ -10,9 +10,7 @@ var Router = function($routeProvider) {
 
 calApp.config(['$routeProvider', Router]);
 */
-calApp.controller('agLoader', ['$scope', 'config', 'asana', '$location', agLoader]);
-calApp.controller('agDownloader', ['$scope', 'config', 'asana', '$interval', agDownloader]);
 
-calApp.service('Base64', Base64Service);
-calApp.factory('asana', ['Base64', '$http', '$resource', '$q', '$localStorage', AsanaService]);
-calApp.factory('config', ['$cookies', ConfigService]);
+//calApp.service('Base64', Base64Service);
+//calApp.factory('asana', ['Base64', '$http', '$resource', '$q', '$localStorage', AsanaService]);
+//calApp.factory('config', ['$cookies', ConfigService]);

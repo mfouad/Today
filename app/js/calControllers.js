@@ -3,42 +3,23 @@
 /* Controllers */
 
 
-function agCalendar($scope, config, asana, $interval)
+function agCalendar($scope)
 {
-	$scope.OnLoad = function(id)
+	$scope.onTask = function()
 	{
-		$scope.workspace = id;
-		config.selected_workspace = $scope.workspace;
-		config.Save();
-		$scope.projects = 'Loading..';
-		var result = asana.Load($scope.workspace);
-		$scope.projects = result;	
+		
+        calendar.data().push({"name":$scope.task, "start": 8, "end": 9});
+        
+        fixTime(calendar.data());
+        calendar.data(data);
+        console.log(calendar.data());
+        calendar(svg);
 	};
     
-    $scope.DownloadAllTasks = function()
-	{
-		$scope.timer =  $interval($scope.OnTick, 10000);
-	};
-
-	$scope.OnTick = function()
-	{
-		asana.More();
-		$scope.progress = asana.GetProgress();
-		$scope.now = asana.nProcessedTasks;
-		$scope.max = asana.nTasksCount;
-	};
-
-	$scope.OnDownloadComplete = function()
-	{
-		$interval.cancel($scope.timer);
-	};
-	
-	console.log("tasks = ", asana.Tasks);
-	$scope.projects = asana.Projects;
-
+   
 }
 
-agApp.controller('agCalendar', ['$scope', 'config', 'asana', '$interval', agCalendar]);
+calApp.controller('agCalendar', ['$scope', agCalendar]);
 
 
 
