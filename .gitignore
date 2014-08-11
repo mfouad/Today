@@ -5,3 +5,4 @@ bower_components/
 *.log
 api/Auth/Keys.cs
 app/js/data.js
+.brackets.json
