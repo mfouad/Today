@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="app/bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="app/bower_components/bootstrap/dist/css/bootstrap-theme.css" />
-    <link rel="stylesheet" href="app/css/carousel.css" />
+    <link rel="stylesheet" href="app/css/app.css" />
 
     <link rel="stylesheet" href="app/bower_components/fontawesome/css/font-awesome.min.css" />
     <!--
@@ -19,7 +19,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Blocks | work in sprints</title>
+    <title>Today | because great things take time</title>
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -43,44 +43,45 @@
                 <li><a href="#">About</a>
                 </li>
             </ul>
-            <h3 class="text-muted">Blocks</h3>
+            <h2> <span class="text-warning"></span>T<i class="fa fa-check-circle-o fa-1 text-warning"></i>DAY</h2>
         </div>
 
     </div>
     <!-- START THE FEATURETTES -->
 
-<!--    <hr class="featurette-divider">-->
+    <!--    <hr class="featurette-divider">-->
     <div class="container">
         <div class="row text-center">
-            <h2>Tasks take time<br />they do not belong in lists</h2>
-            <img src="app/img/overview.png"/>
-        </div>
-        
-        <hr class="featurette-divider">
-        
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading">Anti-Procrastination.<br /><span class="text-muted">Pomodoro inside!</span></h2>
-                <p class="lead">Have a dreadful task? Focus for just 30mins, get things moving, then go back to the things you love</p>
-            </div>
-            <div class="col-md-5">
-                <img class="featurette-image img-responsive" src="app/img/procrastination.png" alt="Generic placeholder image">
-            </div>
+            <h2 class="">Tasks take time<br />they do not belong in lists</h2>
+            <img src="app/img/overview.png" />
         </div>
 
         <hr class="featurette-divider">
 
-        <div class="row featurette">
-            <div class="col-md-5">
-                <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" src="app/img/sources.png" alt="Generic placeholder image">
-            </div>
-            <div class="col-md-7">
-                <h2 class="featurette-heading">Does only one thing <br /><span class="text-muted">but does it really well.</span></h2>
-                <p class="lead">We are not yet another project management solution.
-                    <br />We integrate with the tools you already use, to just allow you to manage your crazy day!</p>
-            </div>
-        </div>
+        <div class="row">
 
+
+            <h2 class="text-center">Can't wait to try it out?<br/>
+                <span class="h4 text-muted">We are working hard to deliver the awesomnes you deserve</span>
+                    </h2>
+        </div>
+        <div class="row">
+            <form id="newlead">
+            <div id="leadsform" class="has-success input-group margin-bottom-sm col-md-offset-3 col-md-6 ">
+                <span class="input-group-addon "><i  class="fa fa-envelope-o fa-fw"></i></span>
+                <input class="form-control" type="text" id="email" placeholder="Your email address">
+
+                <div class="input-group-btn">
+                    <button id="btnSend" type="submit" class="btn btn-success">
+                        Sign me up!
+                    </button>
+                </div>
+            </div>
+                </form>
+            <h2 id="msgSent" style="display: none" class="text-center text-success">Subscribed!</h2>
+            <h2 id="msgError" style="display: none" class="text-center text-success">Error! Please try again</h2>
+            <h5 class="text-center"><a class="text-success" href="https://twitter.com/todaytasks">Speak your mind <i class="h4 fa fa-twitter"></i></a></h5>
+        </div>
         <hr class="featurette-divider">
 
         <div class="row featurette">
@@ -92,6 +93,35 @@
                 <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" src="app/img/tasklist.png" alt="Generic placeholder image">
             </div>
         </div>
+
+
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" src="app/img/sources.png" alt="Generic placeholder image">
+            </div>
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Does only one thing <br /><span class="text-muted">but does it really well.</span></h2>
+                <p class="lead">We are not yet another project management solution.
+                    <br />We integrate with the tools you already use, to allow you to manage your crazy day!</p>
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Anti-Procrastination.<br /><span class="text-muted">Pomodoro inside!</span></h2>
+                <p class="lead">Have a dreadful task? Focus for just 30mins, get things moving, then go back to the things you love</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" src="app/img/procrastination.png" alt="Generic placeholder image">
+            </div>
+        </div>
+
+
         <hr class="featurette-divider">
 
         <!-- /END THE FEATURETTES -->
@@ -99,7 +129,7 @@
 
         <!-- FOOTER -->
         <footer>
-            <p>&copy; 2014 Mohammad Fouad &middot; <a href="https://twitter.com/agilityapp"><i class="fa fa-twitter"></i> twitter</a>
+            <p>&copy; 2014 Mohammad Fouad &middot; <a href="https://twitter.com/_fouad"><i class="fa fa-twitter"></i> twitter</a>
             </p>
         </footer>
 
@@ -113,8 +143,7 @@
 
     <script src='app/bower_components/jquery/dist/jquery.js'></script>
     <script src='app/bower_components/bootstrap/dist/js/bootstrap.js'></script>
-    
-    <script src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js'></script>
+
     <script src='http://ajax.aspnetcdn.com/ajax/mobileservices/MobileServices.Web-1.2.2.min.js'></script>
     <script src='app/leads.js'></script>
 

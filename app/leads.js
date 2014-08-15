@@ -2,27 +2,35 @@
 /* global WindowsAzure */
 
 $(function() {
+    console.log("loading");
     var client = new WindowsAzure.MobileServiceClient('https://blocks.azure-mobile.net/', 'xnghPceVfNePtbzckrnLReQFTzyTcX70'),
         leads  = client.getTable('leads');
 
     // navigate to succes page
     function leadSent() {
-        
+        $("#leadsform").hide();
+        $("#msgSent").show(1000);
     }
 
     function leadFailed(error) {
-        var text = error + (error.request ? ' - ' + error.request.status : '');
-        $('#errorlog').append($('<li>').text(text));
+        console.log(error);
+        $("#leadsform").show();
+        $('#msgError').show();
     }
 
     // Handle insert
-    $('#submit').submit(function(evt) {
+    $('#newlead').submit(function(evt) {
+        $('#msgError').hide();
         var textbox = $('#email'),
             itemText = textbox.val();
         if (itemText !== '') {
-            leads.insert({ text: itemText, complete: false }).then(leadSent, leadFailed);
+            
+            console.log("sending " + itemText);
+            leads.insert({ email: itemText }).then(leadSent, leadFailed);
         }
         textbox.val('').focus();
+        $("#leadsform").hide();
+    
         evt.preventDefault();
     });
 
