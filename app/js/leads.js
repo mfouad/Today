@@ -8,19 +8,23 @@ $(function() {
 
     // navigate to succes page
     function leadSent() {
+        $('#msgSending').hide();
         $("#leadsform").hide();
         $("#msgSent").show(1000);
     }
 
     function leadFailed(error) {
         console.log(error);
+        $('#msgSending').hide();
         $("#leadsform").show();
         $('#msgError').show();
+        
     }
 
     // Handle insert
     $('#newlead').submit(function(evt) {
         $('#msgError').hide();
+        $('#msgSending').show();
         var textbox = $('#email'),
             itemText = textbox.val();
         if (itemText !== '') {
