@@ -1,0 +1,75 @@
+.tick text {
+    font: 12px sans-serif;
+    text-anchor:start;
+}
+.axis path {
+    fill: none;
+    stroke: #aaa;
+    stroke-width:0.5;
+
+}
+
+.grid path {
+    fill: none;
+    stroke: none;
+}
+
+.grid-background
+{
+    stroke: grey;
+    stroke-width:0.5;
+    fill: rgba(0, 0, 0, 0.03);
+}
+
+.axis line {
+    stroke: #aaa;
+    stroke-width:0.5;
+    fill: #fff;
+}
+
+.grid .major.tick line
+{
+    display: none;
+}
+
+.grid .minor.tick line 
+{
+    stroke: #aaa;
+    stroke-width:0.5;
+    stroke-dasharray: 2,2
+}
+.future rect {
+    fill: rgb(39, 235, 120);
+    shape-rendering: crispEdges;
+    stroke: rgba(201, 132, 52, 0.65);
+}
+.past rect {
+    fill: rgb(110, 240, 170);
+    shape-rendering: crispEdges;
+    stroke: rgba(201, 132, 52, 0.65);
+}
+
+.past text {
+    fill: rgba(168, 178, 172, 0.88);
+}
+
+.future text {
+    fill: #000;
+}
+
+
+.timer .timeline {
+    shape-rendering: crispEdges;
+    stroke: rgb(154, 26, 26);
+    stroke-width: 2
+}
+.timer .timeblob {
+    fill: rgb(154, 26, 26);
+    stroke: rgb(154, 26, 26);
+    stroke-width: 2
+}
+.task {
+    margin: 0px;
+    padding: 0px;
+}
+.done {} .todo {}
