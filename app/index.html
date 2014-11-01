@@ -2,30 +2,30 @@
 <html lang="en" ng-app="agApp">
 
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.css" />
-    <link rel="stylesheet" href="css/app.css" />
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+	<link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.css" />
+	<link rel="stylesheet" href="css/app.css" />
 
-    <link rel="stylesheet" href="../bower_components/fontawesome/css/font-awesome.min.css" />
-    <!--
+	<link rel="stylesheet" href="../bower_components/fontawesome/css/font-awesome.min.css" />
+	<!--
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 -->
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-    <title>Today | great things take time</title>
+	<title>Today | great things take time</title>
 
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+	<!-- Just for debugging purposes. Don't actually copy this line! -->
+	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -35,112 +35,105 @@
 ================================================== -->
 
 <body>
-    <div class="container">
-        <div class="header">
-         
-            <h2> <span class="text-warning"></span>T<i class="fa fa-check-circle-o fa-1 text-warning"></i>DAY</h2>
-        </div>
+	<div class="container">
+		<div class="header">
 
-    </div>
-    <!-- START THE FEATURETTES -->
+			<h2> <span class="text-warning"></span>T<i class="fa fa-check-circle-o fa-1 text-warning"></i>DAY</h2>
+		</div>
 
-    <!--    <hr class="featurette-divider">-->
-    <div class="container">
-        <div class="row text-center">
-            <h2 class="">To-do lists do not work!<br />but timetables do.</h2>
-            <img src="img/overview.png" />
-        </div>
+	</div>
+	<!-- START THE FEATURETTES -->
 
-        <hr class="featurette-divider">
+	<!--    <hr class="featurette-divider">-->
+	<div class="container">
+		<div class="row text-center">
+			<h2 class="">To-do lists do not work!<br />but timetables do.</h2>
+			<img src="img/overview.png" />
+		</div>
 
-        <div class="row">
+		<hr class="featurette-divider">
 
+		<div class="row">
+			<form id="newlead">
+				<div id="leadsform" class="text-center ">
+					<div class="">
+						<button id="btnLoginAsana" type="submit" class="btn btn-primary" ng-data-click="loginAsana">
+							Login with Asana!
+						</button>
+						<button id="btnLoginGoogle" type="submit" class="btn btn-success" ng-data-click="loginGoogle">
+							Login with Google!
+						</button>
+					</div>
+				</div>
+			</form>
+			<h2 id="msgSent" style="display: none" class="text-center text-success">Subscribed!</h2>
+			<h2 id="msgSending" style="display: none" class="text-center text-success">Sending...</h2>
+			<h2 id="msgError" style="display: none" class="text-center text-success">Error! Please try again</h2>
+		</div>
+		<hr class="featurette-divider">
 
-            <h2 class="text-center">Can't wait to try it out?<br/>
-                <span class="h4 text-muted">We are working hard to deliver the awesomnes you deserve</span>
-                    </h2>
-        </div>
-        <div class="row">
-            <form id="newlead">
-            <div id="leadsform" class="has-success input-group margin-bottom-sm col-md-offset-3 col-md-6 ">
-                <span class="input-group-addon "><i  class="fa fa-envelope-o fa-fw"></i></span>
-                <input class="form-control" type="text" id="email" placeholder="Your email address">
-
-                <div class="input-group-btn">
-                    <button id="btnSend" type="submit" class="btn btn-success">
-                        Sign me up!
-                    </button>
-                </div>
-            </div>
-                </form>
-            <h2 id="msgSent" style="display: none" class="text-center text-success">Subscribed!</h2>
-            <h2 id="msgSending" style="display: none" class="text-center text-success">Sending...</h2>
-            <h2 id="msgError" style="display: none" class="text-center text-success">Error! Please try again</h2>
-        </div>
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading">Guilt Free.<br /><span class="text-muted">Imbraces your limits.</span></h2>
-                <p class="lead">We understand that only so many tasks can fit in your day. Dump those long <a href="http://www.hanselman.com/blog/PsychicWeightLifeIsPending.aspx">piles of guilt</a> that you call todo lists.</p>
-            </div>
-            <div class="col-md-5">
-                <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" src="img/tasklist.png" alt="Generic placeholder image">
-            </div>
-        </div>
+		<div class="row featurette">
+			<div class="col-md-7">
+				<h2 class="featurette-heading">Guilt Free.<br /><span class="text-muted">Imbraces your limits.</span></h2>
+				<p class="lead">We understand that only so many tasks can fit in your day. Dump those long <a href="http://www.hanselman.com/blog/PsychicWeightLifeIsPending.aspx">piles of guilt</a> that you call todo lists.</p>
+			</div>
+			<div class="col-md-5">
+				<img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" src="img/tasklist.png" alt="Generic placeholder image">
+			</div>
+		</div>
 
 
 
-        <hr class="featurette-divider">
+		<hr class="featurette-divider">
 
-        <div class="row featurette">
-            <div class="col-md-5">
-                <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" src="img/sources.png" alt="Generic placeholder image">
-            </div>
-            <div class="col-md-7">
-                <h2 class="featurette-heading">Does only one thing <br /><span class="text-muted">but does it really well.</span></h2>
-                <p class="lead">We are not yet another project management solution.
-                    <br />We integrate with the tools you already use, to allow you to manage your crazy day!</p>
-            </div>
-        </div>
+		<div class="row featurette">
+			<div class="col-md-5">
+				<img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" src="img/sources.png" alt="Generic placeholder image">
+			</div>
+			<div class="col-md-7">
+				<h2 class="featurette-heading">Does only one thing <br /><span class="text-muted">but does it really well.</span></h2>
+				<p class="lead">We are not yet another project management solution.
+					<br />We integrate with the tools you already use, to allow you to manage your crazy day!</p>
+			</div>
+		</div>
 
-        <hr class="featurette-divider">
+		<hr class="featurette-divider">
 
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading">Anti-Procrastination.<br /><span class="text-muted">Pomodoro inside!</span></h2>
-                <p class="lead">Have a dreadful task? Focus for just 30mins, get things moving, then go back to the things you love</p>
-            </div>
-            <div class="col-md-5">
-                <img class="featurette-image img-responsive" src="img/procrastination.png" alt="Generic placeholder image">
-            </div>
-        </div>
-
-
-        <hr class="featurette-divider">
-
-        <!-- /END THE FEATURETTES -->
+		<div class="row featurette">
+			<div class="col-md-7">
+				<h2 class="featurette-heading">Anti-Procrastination.<br /><span class="text-muted">Pomodoro inside!</span></h2>
+				<p class="lead">Have a dreadful task? Focus for just 30mins, get things moving, then go back to the things you love</p>
+			</div>
+			<div class="col-md-5">
+				<img class="featurette-image img-responsive" src="img/procrastination.png" alt="Generic placeholder image">
+			</div>
+		</div>
 
 
-        <!-- FOOTER -->
-        <footer>
+		<hr class="featurette-divider">
+
+		<!-- /END THE FEATURETTES -->
+
+
+		<!-- FOOTER -->
+		<footer>
 			<p>&copy; 2014 Fouad &middot; <a href="https://twitter.com/todaytasks"><i class="fa fa-twitter"></i> twitter</a>
-            </p>
-        </footer>
+			</p>
+		</footer>
 
-    </div>
-    <!-- /.container -->
+	</div>
+	<!-- /.container -->
 
 
-    <!-- Bootstrap core JavaScript
+	<!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+	<!-- Placed at the end of the document so the pages load faster -->
 
-    <script src='../bower_components/jquery/dist/jquery.min.js'></script>
-    <script src='../bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
+	<script src='../bower_components/jquery/dist/jquery.min.js'></script>
+	<script src='../bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
 
-    <script src='http://ajax.aspnetcdn.com/ajax/mobileservices/MobileServices.Web-1.2.2.min.js'></script>
-    <script src='js/leads.js'></script>
+	<script src='http://ajax.aspnetcdn.com/ajax/mobileservices/MobileServices.Web-1.2.2.min.js'></script>
+	<script src='js/leads.js'></script>
 
 </body>
 
